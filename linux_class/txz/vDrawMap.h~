@@ -1,0 +1,1 @@
+void vDrawMap(int iMap[10][12]);

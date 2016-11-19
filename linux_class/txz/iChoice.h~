@@ -1,0 +1,96 @@
+	
+
+
+
+  int k;
+  int bRet1=0;
+	int bRet2=0;
+	int bRet3=0;
+	int bRet4=0;
+	FILE *fp;      //配置文件
+	char cCh;
+  fp=fopen("a","r");
+  fscanf(fp,"%d",&k);
+    pthread_t id1,id2,id3,id4,id5,id6,id7,id8,id9;
+    
+do
+	 {
+		switch(k)      
+		{
+			
+		case 0:
+			bRet1 = pthread_create(&id1, NULL, (void*)music1, NULL);
+			if(bRet1)
+			{
+				printf("Create pthread error!\n");
+				return 1;
+			}
+			bRet1 = pthread_create(&id2, NULL, (void*)tableone, NULL);
+			if(bRet1)
+			{
+				printf("Create pthread error!\n");
+				return 1;
+			}
+			
+			pthread_join(id1,NULL);
+			pthread_join(id2,NULL);
+			break;
+		case 1:	 
+			bRet2 = pthread_create(&id3, NULL, (void*)music2, NULL);
+			if(bRet2)
+			{
+				printf("Create pthread error!\n");
+				return 1;
+			}
+			bRet2 = pthread_create(&id4, NULL, (void*)tabletwo, NULL);
+			if(bRet2)
+			{
+				printf("Create pthread error!\n");
+				return 1;
+			}
+			pthread_join(id3,NULL);
+			pthread_join(id4,NULL);
+			break;
+		case 2: 
+			bRet3 = pthread_create(&id5, NULL, (void*)music3, NULL);
+			if(bRet3)
+			{
+				printf("Create pthread error!\n");
+				return 1;
+			}
+			bRet3 = pthread_create(&id6, NULL, (void*)tablethree, NULL);
+			if(bRet3)
+				
+			{
+				printf("Create pthread error!\n");
+				return 1;
+			}
+			pthread_join(id5,NULL);
+			pthread_join(id6,NULL);
+			break;
+		case 3:
+			bRet4 = pthread_create(&id7, NULL, (void*)music4, NULL);
+			if(bRet4)
+			{
+				printf("Create pthread error!\n");
+				return 1;
+			}
+			bRet4 = pthread_create(&id8, NULL, (void*)tablefour, NULL);
+			if(bRet4)
+			{
+				printf("Create pthread error!\n");
+				return 1;
+			}
+			pthread_join(id7,NULL);
+			pthread_join(id8,NULL);
+			break;
+			
+		}
+		printf("是否继续下一关（y/n）:");
+		scanf(" %c", &cCh);
+		k++;
+		//printf("%d",k);
+	}
+	while(cCh == 'Y'||cCh == 'y'); 
+}
+
