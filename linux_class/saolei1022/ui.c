@@ -2,7 +2,7 @@
 #include"init.h"
 void ui()                                             //绘制界面
 {
-    int i,j;  
+    int i,j;
     for(j=0;j<2*iHigh+2;j=j+2)
     {for(i=1;i<4*iWidth;i++)
         {

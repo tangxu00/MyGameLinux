@@ -2,8 +2,6 @@
 #include"draw.h"
 #include"control.h"
 #include"ui.h"
-
-
 /*------------鼠标控制--------------*/
 void mouseControl()
 {
