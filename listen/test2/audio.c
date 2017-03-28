@@ -69,29 +69,29 @@ usage: wavhdr(pointer,sampleRate,dataLength) */
 void wavhdr(void*m,UL hz,UL dlen){
  WAVHDR*p=m;
  p->riff=dw("RIFF");
- p->len=dlen+44;
+ p->len=2*dlen+36;
  p->wave=dw("WAVE");
  p->fmt=dw("fmt ");
  p->flen=0x10;
  p->one=1;
  p->chan=1;
  p->hz=hz;
- p->bpsec=hz;
- p->bpsmp=1;
- p->bitpsmp=8;
+ p->bpsec=2*hz;
+ p->bpsmp=2;
+ p->bitpsmp=16;
  p->dat=dw("data");
- p->dlen=dlen;
+ p->dlen=2*dlen;
 }
  
  
 /* returns 8-bit sample for a sine wave */
-UC sinewave(UL rate,float freq,UC amp,UL z){
+US sinewave(UL rate,float freq,UC amp,UL z){
  return sin(z*((PI*2/rate)*freq))*amp+128;
 }
  
  
 /* make arbitrary audio data here */
-void makeaud(UC*p,const UL rate,UL z){
+void makeaud(US*p,const UL rate,UL z){
  float freq=500;
  UC amp=120;
  while(z--){
@@ -102,11 +102,11 @@ void makeaud(UC*p,const UL rate,UL z){
  
 /* makes wav file */
 void makewav(const UL rate,const UL dlen){
- const UL mlen=dlen+44;
- UC*const m=malloc(mlen);
+ const UL mlen=2*dlen+44;
+ US*const m=malloc(mlen);
  if(m){
   wavhdr(m,rate,dlen);
-  makeaud(m+44,rate,dlen);
+  makeaud(m+22,rate,dlen);
   savefile("out.wav",m,mlen);
  }
 }
@@ -114,6 +114,6 @@ void makewav(const UL rate,const UL dlen){
  
 int main(){
  if(sizeof(WAVHDR)!=44)puts("bad struct");
- makewav(22050,64000);
+ makewav(44100,640000);
  return 0;
 }
