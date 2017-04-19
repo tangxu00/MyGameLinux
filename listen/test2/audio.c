@@ -69,18 +69,18 @@ usage: wavhdr(pointer,sampleRate,dataLength) */
 void wavhdr(void*m,UL hz,UL dlen){
  WAVHDR*p=m;
  p->riff=dw("RIFF");
- p->len=2*dlen+36;
+ p->len=dlen;
  p->wave=dw("WAVE");
  p->fmt=dw("fmt ");
  p->flen=0x10;
  p->one=1;
  p->chan=1;
  p->hz=hz;
- p->bpsec=2*hz;
- p->bpsmp=2;
- p->bitpsmp=16;
+ p->bpsec=hz;
+ p->bpsmp=1;
+ p->bitpsmp=8;
  p->dat=dw("data");
- p->dlen=2*dlen;
+ p->dlen=dlen;
 }
  
  
@@ -91,8 +91,8 @@ US sinewave(UL rate,float freq,UC amp,UL z){
  
  
 /* make arbitrary audio data here */
-void makeaud(US*p,const UL rate,UL z){
- float freq=500;
+void makeaud(UC*p,const UL rate,UL z){
+ float freq=2000;
  UC amp=120;
  while(z--){
   *p++=sinewave(rate,freq,amp,z);
@@ -102,11 +102,11 @@ void makeaud(US*p,const UL rate,UL z){
  
 /* makes wav file */
 void makewav(const UL rate,const UL dlen){
- const UL mlen=2*dlen+44;
- US*const m=malloc(mlen);
+ const UL mlen=dlen+44;
+ UC*const m=malloc(mlen);
  if(m){
   wavhdr(m,rate,dlen);
-  makeaud(m+22,rate,dlen);
+  makeaud(m+44,rate,dlen);
   savefile("out.wav",m,mlen);
  }
 }
